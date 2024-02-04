@@ -1,0 +1,11 @@
+%h1
+  Log in
+= form_with model: @user, url: session_url do |form|
+  .col-md-6.mb-3
+    =form.label :name, class: 'col-sm-2 col-form-label'
+    =form.text_field :name, class: 'form-control'
+  .col-md-6.mb-3
+    =form.label :password, class: 'col-sm-2 col-form-label'
+    =form.password_field :password, class: 'form-control'
+  .col-md-6.mb-3
+    =form.submit "Log in", class: 'btn btn-primary'

@@ -1,0 +1,17 @@
+%header.d-flex.flex-wrap.justify-content-center.py-3.mb-4.border-bottom
+  .col-md-3
+    =link_to 'Home', root_path, class: 'btn btn-outline-primary me-2'
+  %h1
+    Super Ticket Master
+  .col-md-3.text-end
+    - if user_signed_in?
+      .container-sm
+        Welcome,
+        %b= current_user.name
+      %nav.navbar
+        .container-sm.text-end
+          - if is_admin?
+            = link_to 'Admin site', admin_tickets_path, class: 'btn btn-outline-primary me-2'
+          = button_to 'Log out', session_path, method: :delete, class: 'btn btn-primary me-2'
+    - else
+      = link_to 'Log in', new_session_path, class: 'btn btn-outline-primary me-2'

@@ -1,0 +1,33 @@
+.alert.alert-secondary
+  %div Filter by status:
+  .btn-group.btn-group-sm.p-3
+    -@stats.each do |k,v|
+      -opt = (k==:all ? nil : {'filters[status]': k})
+      -filter_klass = params[:filters]&.fetch(:status)==k ? 'btn btn-primary' : 'btn btn-outline-primary'
+      =link_to "#{k}(#{v})", admin_tickets_url(opt), class: filter_klass
+
+%table.table.table-striped.table-hover
+  %thead
+    %th #
+    %th Status
+    %th Requester Name
+    %th Requester Email
+    %th Subject
+    %th Content
+    %th
+  %tbody.table-group-divider
+    -@tickets.each do |t|
+      %tr
+        %td=t.id
+        %td=t.status
+        %td=t.requester_name
+        %td=t.requester_email
+        %td=truncate t.subject.squish, :length => 30, :separator => /\w/
+        %td=truncate t.content.squish, :length => 30, :separator => /\w/
+        %td
+          =link_to 'edit', edit_admin_ticket_path(t)
+          |
+          =link_to 'delete', admin_ticket_path(t), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}
+  %tfoot
+    %tr.text-end
+      %th{colspan: 7}=paginate @tickets

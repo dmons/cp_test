@@ -1,0 +1,9 @@
+
+// Custom bootstrap variables must be set or imported *before* bootstrap.
+@import "bootstrap";
+header{
+    //height: 50px;
+}
+input.error{
+    border: 1px solid #730E15;
+}

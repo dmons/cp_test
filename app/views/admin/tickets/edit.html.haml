@@ -1,0 +1,31 @@
+=form_for @ticket, url: admin_ticket_path(@ticket&.id), class: 'g-5',local: true, data: { turbo: false } do |f|
+  .row
+    .col-md-6
+      .mb-3
+        =f.label :name, class: 'col-sm-2 col-form-label'
+        =f.text_field :requester_name, class: 'form-control', disabled: true, readonly:true
+      .mb-3
+        =f.label :Email, class: 'form-label'
+        =f.email_field :requester_email, class: 'form-control', disabled: true, readonly:true
+      .mb-3
+        =f.label :subject, class: 'form-label'
+        =f.text_field :subject, class: 'form-control', disabled: true, readonly:true
+      .mb-3
+        =f.label :content, class: 'form-label'
+        =f.text_area :content, size: '60x6', class: 'form-control', disabled: true, readonly:true
+    .col-md-6
+      .mb-3
+        =f.label :status, class: 'form-label'
+        =f.select :status, Ticket.statuses.map{ |k,v| [k.capitalize,k] },{}, class: 'form-control form-select-lg mb-3', 'aria-label': "Large select example"
+
+      -@ticket.comments.each do |cm|
+        .alert.alert-secondary
+          =cm.content
+          %p
+            %small="#{cm.user&.name} at #{cm.created_at}"
+      .mb-3
+        =f.fields_for :comments, Comment.build(ticket: @ticket) do |sub_form|
+          =sub_form.text_area :content, size: '60x6', class: 'form-control', placeholder: 'Write your comments here'
+  .col.text-end
+    =f.submit "Update", class: 'col-1 btn btn-primary'
+    =link_to "Back to list", admin_tickets_path, class: 'col-2 btn btn-outline-primary'
